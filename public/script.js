@@ -44,6 +44,11 @@ $('.btn-publish').on('click', function() {
   }
 });
 
+$(document).on('click', '.btn-update-preview', function(e) {
+  e.preventDefault();
+  updatePreview();
+});
+
 $(document).ready(function() {
   updatePreview();
 });

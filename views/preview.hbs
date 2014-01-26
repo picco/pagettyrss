@@ -1,7 +1,11 @@
-<h2 class="content-preview">Preview <button type="button" class="btn btn-default pull-right">Update</button></h2>
+<h2 class="content-preview">Preview <a href="#" class="btn btn-default btn-update-preview pull-right">Update</a></h2>
 {{#items}}
   <div class="item">
-    <h3>{{title}}</h3>
+    {{#if title}}
+      <h3>{{title}}</h3>
+    {{else}}
+      <h3><em>(no title)</em></h3>
+    {{/if}}
 
     <p><a href="{{target}}" target="_blank">{{target}}</a></p>
 
