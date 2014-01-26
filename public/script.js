@@ -1,5 +1,6 @@
 function getSpec() {
   var spec = {
+    private_id: $('#private_id').val(),
     url: $('#url').val(),
     title: $('#title').val(),
     email: $('#email').val(),
@@ -17,11 +18,13 @@ function getSpec() {
 function updatePreview() {
   var spec = getSpec();
 
-  if (spec.url) {
-    $.get('/preview', spec, function(data) {
-      $('.preview').html(data);
-    });
-  }
+  $('.loader').show();
+  $('.preview .content').html('');
+
+  $.get('/preview', spec, function(data) {
+    $('.loader').hide();
+    $('.preview .content').html(data);
+  });
 }
 
 $('#sample').on('change', function() {
@@ -36,12 +39,20 @@ $('#sample').on('change', function() {
 $('.btn-publish').on('click', function() {
   var spec = getSpec();
 
-  if (spec.url) {
-    $.post('/publish', spec, function(data) {
-      $('#modal .modal-dialog').html(data.modal);
+  $.post('/publish', spec, function(data) {
+    if (typeof data === 'object') {
+      window.location = data.location;
+    }
+    else {
+      $('#modal .modal-dialog').html(data);
       $('#modal').modal();
-    });
-  }
+    }
+  });
+});
+
+$('.trigger-update').on('change', function(e) {
+  e.preventDefault();
+  updatePreview();
 });
 
 $(document).on('click', '.btn-update-preview', function(e) {

@@ -2,58 +2,61 @@
   <div class="row">
     <div class="col-md-8">
       <div class="form-group">
-        <label for="url">URL</label>
-        <input type="text" class="form-control input-sm" id="url" value="{{defaultSample.url}}">
+        <label for="url">URL *</label>
+        <input type="url" class="form-control trigger-update" id="url" value="{{feed.url}}">
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="form-group">
-        <label for="sample">Sample feeds</label>
-        <select class="form-control input-sm" id="sample">
-          {{#each samples}}
-            <option value="{{@key}}">{{name}}</option>
-          {{/each}}
-        </select>
+    {{#if feed._id}}
+    {{else}}
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="sample">Sample feeds</label>
+          <select class="form-control" id="sample">
+            {{#each samples}}
+              <option {{{selected @key ../defaultSampleKey}}} value="{{@key}}">{{name}}</option>
+            {{/each}}
+          </select>
+        </div>
       </div>
-    </div>
+    {{/if}}
   </div>
   <div class="row">
     <div class="col-md-4">
       <div class="form-group">
         <label for="item-selector">Item selector *</label>
-        <input type="text" class="form-control input-sm" id="item-selector" value="{{defaultSample.item_selector}}">
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="form-group">
-        <label for="target-selector">Target selector *</label>
-        <input type="text" class="form-control input-sm" id="target-selector" value="{{defaultSample.target_selector}}">
+        <input type="text" class="form-control trigger-update" id="item-selector" value="{{feed.item_selector}}">
       </div>
     </div>
     <div class="col-md-4">
       <div class="form-group">
         <label for="title-selector">Title selector *</label>
-        <input type="text" class="form-control input-sm" id="title-selector" value="{{defaultSample.title_selector}}">
+        <input type="text" class="form-control trigger-update" id="title-selector" value="{{feed.title_selector}}">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="target-selector">Target URL selector *</label>
+        <input type="text" class="form-control trigger-update" id="target-selector" value="{{feed.target_selector}}">
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-4">
       <div class="form-group">
-        <label for="image-selector">Image selector</label>
-        <input type="text" class="form-control input-sm" id="image-selector" value="{{defaultSample.image_selector}}">
+        <label for="author-selector">Author selector</label>
+        <input type="text" class="form-control trigger-update" id="author-selector" value="{{feed.author_selector}}">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="image-selector">Image URL selector</label>
+        <input type="text" class="form-control trigger-update" id="image-selector" value="{{feed.image_selector}}">
       </div>
     </div>
     <div class="col-md-4">
       <div class="form-group">
         <label for="content-selector">Content selector</label>
-        <input type="text" class="form-control input-sm" id="content-selector" value="{{defaultSample.content_selector}}">
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="form-group">
-        <label for="author-selector">Author selector</label>
-        <input type="text" class="form-control input-sm" id="author-selector" value="{{defaultSample.author_selector}}">
+        <input type="text" class="form-control trigger-update" id="content-selector" value="{{feed.content_selector}}">
       </div>
     </div>
   </div>

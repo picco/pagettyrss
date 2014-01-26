@@ -1,0 +1,13 @@
+<dl class="dl-horizontal">
+  <dt>Title</dt>
+  <dd>{{feed.title}}</dd>
+  <dt>Author e-mail</dt>
+  <dd>{{feed.email}}</dd>
+  <dt>Subscription URL</dt>
+  <dd><a target="_blank"href="{{conf.base_url}}/rss/{{feed.public_id}}">{{conf.base_url}}/rss/{{feed.public_id}}</a></dd>
+  <dt>Edit URL</dt>
+  <dd><a href="{{conf.base_url}}/edit/{{feed.private_id}}">{{conf.base_url}}/edit/{{feed.private_id}}</a></dd>
+</dl>
+<div class="subscribe">
+  <a href='http://cloud.feedly.com/#subscription%2Ffeed%2F{{conf.base_url}}/rss/{{feed.public_id}}'  target='blank'><img id='feedlyFollow' src='http://s3.feedly.com/img/follows/feedly-follow-rectangle-flat-medium_2x.png' alt='Follow in Feedly' width='71' height='28'></a>
+</div>

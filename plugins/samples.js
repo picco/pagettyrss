@@ -3,12 +3,12 @@ exports.attach = function (options) {
 
   app.samples = {
     new: {
-      "name": "- new -",
+      "name": "- new feed -",
       "url": "",
-      "item_selector": "article",
-      "target_selector": "h2 a:href",
-      "title_selector": "h2 a",
-      "image_selector": "img:src",
+      "item_selector": "",
+      "target_selector": "",
+      "title_selector": "",
+      "image_selector": "",
       "content_selector": "",
       "author_selector": "",
     },
@@ -34,6 +34,6 @@ exports.attach = function (options) {
     }
   }
 
-  app.defaultSampleName = 'reddit_top';
+  app.defaultSampleKey = 'reddit_top';
   app.defaultSample = app.samples.reddit_top;
 }

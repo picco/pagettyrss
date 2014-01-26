@@ -1,0 +1,10 @@
+{
+  "conf": {
+    "base_url": "http://95.85.20.120",
+    "db_url": "mongodb://localhost/pagetty",
+    "mail": {
+      "from": "Pagetty <ivo@pagetty.com>",
+      "bcc": "ivo+bcc@pagetty.com"
+    }
+  }
+}

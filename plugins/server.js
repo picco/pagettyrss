@@ -6,22 +6,31 @@ exports.attach = function (options) {
   var RSS = require('rss');
   var validator = require('validator');
 
+  hbs.registerHelper('selected', function(current, selected) {
+    return (current == selected) ? 'selected' : '';
+  });
+
   app.server = express();
 
   app.server.engine('hbs', hbs.express3({
     partialsDir: app.dir + '/views/partials'
   }));
 
+  app.server.locals({
+    conf: app.conf,
+  });
+
   app.server.set('view engine', 'hbs');
   app.server.set('views', app.dir + '/views');
   app.server.use(express.static(app.dir + '/public'));
   app.server.use(express.bodyParser());
 
-  app.server.get('/', function(req, res){
+  app.server.get('/', function(req, res) {
     res.render('index', {
+      feed: app.defaultSample,
       samples: app.samples,
       samplesJSON: JSON.stringify(app.samples),
-      defaultSample: app.defaultSample,
+      defaultSampleKey: app.defaultSampleKey,
     });
   });
 
@@ -32,7 +41,7 @@ exports.attach = function (options) {
           feed: feed,
           samples: app.samples,
           samplesJSON: JSON.stringify(app.samples),
-          defaultSample: app.defaultSample,
+          defaultSampleKey: 'new',
         });
       }
       else {
@@ -49,6 +58,7 @@ exports.attach = function (options) {
 
   app.server.post('/publish', function(req, res) {
     var errors = [];
+    var isNewFeed = req.body.private_id ? false : true;
 
     if (!validator.isURL(req.body.url)) errors.push('URL is not valid.');
     if (!validator.isEmail(req.body.email)) errors.push('E-mail is not valid.');
@@ -58,16 +68,19 @@ exports.attach = function (options) {
     if (!validator.isLength(req.body.title_selector, 1)) errors.push('Title selector not defined.');
 
     if (!errors.length) {
-      req.body.public_id = crypto.randomBytes(8).toString('hex');
-      req.body.private_id = crypto.randomBytes(8).toString('hex');
+      if (isNewFeed) {
+        req.body.private_id = crypto.randomBytes(8).toString('hex');
+        req.body.public_id = crypto.randomBytes(8).toString('hex');
+      }
 
-      app.feed.create(req.body, function(err, doc) {
+      app.feed.findOneAndUpdate({private_id: req.body.private_id}, req.body, {upsert: true}, function(err, doc) {
         if (err) {
           app.err(err);
           res.render('modal_content', {status: false, title: 'Publish', errors: ['Feed could not be saved.']});
         }
         else {
-          res.redirect('/edit/' + doc.private_id);
+          app.mail({to: doc.email, subject: 'Feed "' + doc.title + '" published'}, 'feed_published', doc);
+          res.json({'location': 'http://95.85.20.120/edit/' + doc.private_id});
         }
       });
     }
@@ -106,6 +119,11 @@ exports.attach = function (options) {
       }
     });
   });
+
+  app.server.get('/terms', function(req, res) {
+    res.render('terms');
+  });
+
 }
 
 exports.init = function(done) {
