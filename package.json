@@ -1,0 +1,19 @@
+{
+  "name": "pagetty",
+  "dependencies": {
+    "async": "*",
+    "broadway": "*",
+    "cheerio": "*",
+    "ent": "*",
+    "express": "*",
+    "express-hbs": "*",
+    "mongoose": "*",
+    "node-icu-charset-detector": "*",
+    "request": "*",
+    "rss": "*",
+    "underscore": "*",
+    "validator": "*",
+    "winston": "*",
+    "zlib": "*"
+  }
+}

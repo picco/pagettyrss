@@ -1,0 +1,60 @@
+<form class="spec" role="form">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="form-group">
+        <label for="url">URL</label>
+        <input type="text" class="form-control input-sm" id="url" value="{{defaultSample.url}}">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="sample">Sample feeds</label>
+        <select class="form-control input-sm" id="sample">
+          {{#each samples}}
+            <option value="{{@key}}">{{name}}</option>
+          {{/each}}
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="item-selector">Item selector *</label>
+        <input type="text" class="form-control input-sm" id="item-selector" value="{{defaultSample.item_selector}}">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="target-selector">Target selector *</label>
+        <input type="text" class="form-control input-sm" id="target-selector" value="{{defaultSample.target_selector}}">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="title-selector">Title selector *</label>
+        <input type="text" class="form-control input-sm" id="title-selector" value="{{defaultSample.title_selector}}">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="image-selector">Image selector</label>
+        <input type="text" class="form-control input-sm" id="image-selector" value="{{defaultSample.image_selector}}">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="content-selector">Content selector</label>
+        <input type="text" class="form-control input-sm" id="content-selector" value="{{defaultSample.content_selector}}">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="author-selector">Author selector</label>
+        <input type="text" class="form-control input-sm" id="author-selector" value="{{defaultSample.author_selector}}">
+      </div>
+    </div>
+  </div>
+</form>

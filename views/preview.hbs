@@ -1,0 +1,27 @@
+<h2 class="content-preview">Preview <button type="button" class="btn btn-default pull-right">Update</button></h2>
+{{#items}}
+  <div class="item">
+    <h3>{{title}}</h3>
+
+    <p><a href="{{target}}" target="_blank">{{target}}</a></p>
+
+    {{#if author}}
+      <p><strong>By {{author}}</strong></p>
+    {{else}}
+      <p><em>(no author)</em></p>
+    {{/if}}
+
+    {{#if image}}
+      <p><img src="{{image}}" alt="{{title}}" /></p>
+    {{else}}
+      <p><em>(no image)</em></p>
+    {{/if}}
+
+    {{#if content}}
+      <div class="content">{{content}}</div>
+    {{else}}
+      <p><em>(no content)</em></p>
+    {{/if}}
+
+  </div>
+{{/items}}
