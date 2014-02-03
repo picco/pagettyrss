@@ -1,1 +1,101 @@
-Coming...
+<h3>Introduction</h3>
+<p>
+  Pagetty has a very simple purpose - it allows anyone to create their own RSS
+  feeds for web sites that do not provide their own.
+</p>
+</o>
+  In order to create a feed you just need to specify the URL of the page you want
+  to follow, define a set of rules that specify how the content should be extracted
+  (scraped) and you are good to go.
+</p>
+<p>
+  You do need to have some basic HTML and CSS skills define the necessary content
+  scraping rules as they are based on standard CSS selectors. To get you started,
+  we have prepared this tutrial and set up some sample definitions
+  that you can browse on the "Define content" tab.
+</p>
+
+<h3>Selector syntax</h3>
+<p>
+  All rules that you define in the "Define content" screen have the following syntax:
+</p>
+<pre>
+[@]CSS_SELECTOR[::HTML_ATTRIBUTE]
+</pre>
+<dl>
+  <dt>@ prefix</dt>
+  <dd>
+    When you prefix the selector with "@" sign it means that the content should
+    NOT be fetched from the webpage that you specify in the URL field but from
+    the page to where the content item links to (The URL that is discovered using
+    the "Target URL" selector).
+  </dd>
+  <dt>CSS_SELECTOR</dt>
+  <dd>
+    This is a standard CSS selector having form like <code>.post</code>, <code>ul#articles li</code> and so on.
+    More complex selectors like nth-child and attribute selectors are also supported.
+  </dd>
+  <dt>HTML_ATTRIBUTE</dt>
+  <dd>
+    To read a value of a HTML attribute you place "::" after the selector name followed by HTML attribute name.
+  </dd>
+<h3>Content definition</h3>
+<p>
+  When you configure your feed you need to define at least the following required fields on the "Define content screen":
+  a) URL b) Item selector c) Title selector d) Target URL selector.
+  These selectors produce the minimum amount of data to generate a RSS feed.
+</p>
+<dl>
+  <dt>URL (required)</dt>
+  <dd>
+    The URL of the page you want to create the RSS feed for. This page should represent a listing
+    of content - multiple items/stories/news/entries or other pieces of content.
+    Each item should have at least a <strong>name or a title</strong> and a </strong>URL</strong> directing to the content page.</dd>
+  <dt>Item selector (required)</dt>
+  <dd>
+    This selector should target a HTML element that wraps a single content item on the page.<br/>
+    Examples: <code>article</code>, <code>.post</code>, <code>ul#articles li</code>.
+  </dd>
+  <dt>Title selector (required)</dt>
+  <dd>
+    This selector should target a HTML element or attribute that contains the title of the content item. <br/>
+    Examples: <code>H2 a</code>, <code>.post-title</code>, <code>img::title</code>.
+  </dd>
+  <dt>Target URL selector (required)</dt>
+  <dd>
+    This selector should target a HTML element or attribute that contains the URL to the page of the story/newsitem/etc. <br/>
+    Examples: <code>h2 a::href</code>, <code>.post-title::href</code>, <code>img[rel=source]::data-src</code>.
+  </dd>
+  <dt>Author selector</dt>
+  <dd>
+    This selector should target a HTML element or attribute that contains the name of the autor of the content item.<br/>
+    Examples: <code>.author</code>, <code>.info div:nth-child(2)</code>, <code>@article .author</code>.
+  </dd>
+  <dt>Image URL selector</dt>
+  <dd>
+    This selector should target a HTML element or attribute that contains URL of the content item image/photo.<br/>
+    Examples: <code>img::src</code>, <code>.body img.lazy::data-original</code>, <code>@.post img.thumb::src</code>.
+  </dd>
+  <dt>Content selector</dt>
+  <dd>
+    This selector should target a HTML element that contains the body of the content item.<br/>
+    Examples: <code>.post-content</code>, <code>@.description</code>, <code>@p[itemprop=description]</code>.
+  </dd>
+</dl>
+<p>
+  <strong>Note:</strong> The item selector works in context of the entire HTML page, all other selectors work in context of a single content item.
+</p>
+<h3>Preview</h3>
+<p>
+  Below the feed settings a content preview of the feed is always shown.
+  This shows you how the selectors you have defined work in real time and allow you to expermint and test different selector configurations easily.
+</p>
+<h3>Publishing a feed</h3>
+<p>
+  After you have set up the content definition and can see a expected result in the preview area,
+  open the "Configure & Save" tab, specify a name for the feed, your e-mail address and hit "Save".
+
+  An RSS feed will be generated and the according subscription URL will be sent to you via e-mail.
+
+  You can also edit the feeds you have created - the edit link is contained in your e-mail notification as well.
+</p>

@@ -33,6 +33,14 @@ $('#sample').on('change', function() {
   for (var attr in samples[sample]) {
     $('#' + attr.replace('_', '-')).val(samples[sample][attr]);
   }
+
+  if (sample == 'new') {
+    $('.sample-notification').hide();
+  }
+  else {
+    $('.sample-notification').show();
+  }
+
   updatePreview();
 });
 

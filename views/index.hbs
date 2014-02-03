@@ -1,17 +1,17 @@
 {{!< layout/default}}
 {{#contentFor 'body'}}
-  <h2 class="feed-title">Create feed</h2>
+  <h2 class="feed-title">Create new feed</h2>
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#spec" data-toggle="tab">Define</a></li>
-    <li><a href="#publish" data-toggle="tab">Publish</a></li>
+    <li class="active"><a href="#selector" data-toggle="tab">Define content</a></li>
+    <li><a href="#feed" data-toggle="tab">Configure & Save</a></li>
     <li><a href="#tutorial" data-toggle="tab">Tutorial</a></li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane active" id="spec">
-      {{> spec_form}}
+    <div class="tab-pane active" id="selector">
+      {{> selector_form}}
     </div>
-    <div class="tab-pane" id="publish">
-      {{> publish_form}}
+    <div class="tab-pane" id="feed">
+      {{> feed_form}}
     </div>
     <div class="tab-pane" id="tutorial">
       {{> tutorial}}

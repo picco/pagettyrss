@@ -47,22 +47,22 @@ exports.attach = function (options) {
         });
       },
       title: function(next) {
-        self.scrape({data: data, selector: spec.title_selector, targetURL: targetURL}, function(data) {
+        self.scrape({data: data, selector: spec.title_selector, targetURL: targetURL, refererURL: spec.url}, function(data) {
           next(null, self.sanitizeText(data));
         });
       },
       image: function(next) {
-        self.scrape({data: data, selector: spec.image_selector, targetURL: targetURL}, function(data) {
+        self.scrape({data: data, selector: spec.image_selector, targetURL: targetURL, refererURL: spec.url}, function(data) {
           next(null, self.sanitizeURL(spec.url, data));
         });
       },
       content: function(next) {
-        self.scrape({data: data, selector: spec.content_selector, targetURL: targetURL}, function(data) {
+        self.scrape({data: data, selector: spec.content_selector, targetURL: targetURL, refererURL: spec.url}, function(data) {
           next(null, self.sanitizeHTML(data));
         });
       },
       author: function(next) {
-        self.scrape({data: data, selector: spec.author_selector, targetURL: targetURL}, function(data) {
+        self.scrape({data: data, selector: spec.author_selector, targetURL: targetURL, refererURL: spec.url}, function(data) {
           next(null, self.sanitizeText(data));
         });
       },
@@ -96,7 +96,7 @@ exports.attach = function (options) {
     var status = null;
 
     if (spec.url == null || !spec.url.match(/^(http|https):\/\//)) {
-      app.err("fetch", "Invalid URL", spec.url);
+      app.err("fetch", "Invalid URL (", spec.url, ")");
       callback("Invalid URL: " + spec.url);
       return;
     }
@@ -195,7 +195,7 @@ exports.attach = function (options) {
     async.series([
       function(next) {
         if (selector.indexOf('@') != -1) {
-          app.fetch({url: args.targetURL}, function(err, buffer) {
+          app.fetch({url: args.targetURL, headers: {Referer: args.refererURL}}, function(err, buffer) {
             if (buffer) {
               // Remove @ from further processing.
               selector = selector.substring(1);
@@ -221,8 +221,8 @@ exports.attach = function (options) {
         }
       },
       function(next) {
-        if (selector.indexOf(':') != -1) {
-          var split = selector.split(':');
+        if (selector.indexOf('::') != -1) {
+          var split = selector.split('::');
 
           selector = split[0];
           attribute = split[1];
@@ -245,9 +245,14 @@ exports.attach = function (options) {
           }
         }
         else {
-          var item = $(input).find(selector).first();
-          $(item).find("*").after(" ");
-          output = $(item).text();
+          try {
+            var item = $(input).find(selector).first();
+            $(item).find("*").after(" ");
+            output = $(item).html();
+          }
+          catch(e) {
+            app.err(e);
+          }
         }
 
         next();
@@ -293,11 +298,12 @@ exports.attach = function (options) {
    */
   app.sanitizeHTML = function(html) {
     var els = $('<div>'+ html +'</div>');
+    var whitelist = app.whitelist();
 
     $(els).find("*").each(function() {
 
       var name = this[0].name.toLowerCase();
-      var allowed_attrs = app.whitelist[name];
+      var allowed_attrs = whitelist[name];
 
       if (_.isArray(allowed_attrs)) {
         var attribs = _.keys(this[0].attribs);
@@ -367,42 +373,44 @@ exports.attach = function (options) {
   /**
    * TODO
    */
-  app.whitelist = {
-    "a": ["href"],
-    "b": [],
-    "blockquote": [],
-    "br": [],
-    "center": [],
-    "code": [],
-    "div": [],
-    "em": [],
-    "font": [],
-    "h1": [],
-    "h2": [],
-    "h3": [],
-    "h4": [],
-    "h5": [],
-    "h6": [],
-    "hr": [],
-    "i": [],
-    "img": ["src", "align"],
-    "li": [],
-    "ol": [],
-    "p": [],
-    "pre": [],
-    "small": [],
-    "span": [],
-    "strike": [],
-    "strong": [],
-    "sub": [],
-    "sup": [],
-    "table": [],
-    "thead": [],
-    "tbody": [],
-    "tr": [],
-    "td": [],
-    "th": [],
-    "u": [],
-    "ul": [],
+  app.whitelist = function() {
+    return {
+      "a": ["href"],
+      "b": [],
+      "blockquote": [],
+      "br": [],
+      "center": [],
+      "code": [],
+      "div": [],
+      "em": [],
+      "font": [],
+      "h1": [],
+      "h2": [],
+      "h3": [],
+      "h4": [],
+      "h5": [],
+      "h6": [],
+      "hr": [],
+      "i": [],
+      "img": ["src", "align"],
+      "li": [],
+      "ol": [],
+      "p": [],
+      "pre": [],
+      "small": [],
+      "span": [],
+      "strike": [],
+      "strong": [],
+      "sub": [],
+      "sup": [],
+      "table": [],
+      "thead": [],
+      "tbody": [],
+      "tr": [],
+      "td": [],
+      "th": [],
+      "u": [],
+      "ul": [],
+    }
   }
 }

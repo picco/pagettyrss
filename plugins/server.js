@@ -76,16 +76,16 @@ exports.attach = function (options) {
       app.feed.findOneAndUpdate({private_id: req.body.private_id}, req.body, {upsert: true}, function(err, doc) {
         if (err) {
           app.err(err);
-          res.render('modal_content', {status: false, title: 'Publish', errors: ['Feed could not be saved.']});
+          res.render('modal_content', {status: false, title: 'Error', errors: ['Feed could not be saved.']});
         }
         else {
-          app.mail({to: doc.email, subject: 'Feed "' + doc.title + '" published'}, 'feed_published', doc);
+          app.mail({to: doc.email, subject: 'Feed "' + doc.title + '" created'}, 'feed_published', doc);
           res.json({'location': 'http://95.85.20.120/edit/' + doc.private_id});
         }
       });
     }
     else {
-      res.render('modal_content', {status: false, title: 'Feed could not be published', errors: errors});
+      res.render('modal_content', {status: false, title: 'Feed could not be saved', errors: errors});
     }
   });
 
@@ -103,12 +103,19 @@ exports.attach = function (options) {
           for (var i in items) {
             var item = items[i];
 
-            rss.item({
-              title: item.title,
-              description: item.content,
-              url: item.target,
-              author: item.author,
-            });
+            if (item.title && item.target) {
+
+              if (item.image && !item.content) {
+                item.content = '<p><img src="' + item.image + '" /></p>';
+              }
+
+              rss.item({
+                url: item.target,
+                title: item.title,
+                description: item.content,
+                author: item.author,
+              });
+            }
           }
 
           res.send(rss.xml());

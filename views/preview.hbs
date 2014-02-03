@@ -9,7 +9,7 @@
     <p><a href="{{target}}" target="_blank">{{target}}</a></p>
 
     {{#if author}}
-      <p><strong>By {{author}}</strong></p>
+      <p><strong>{{author}}</strong></p>
     {{else}}
       <p><em>(no author)</em></p>
     {{/if}}
@@ -21,10 +21,14 @@
     {{/if}}
 
     {{#if content}}
-      <div class="content">{{content}}</div>
+      <div class="content">{{{content}}}</div>
     {{else}}
       <p><em>(no content)</em></p>
     {{/if}}
 
+  </div>
+{{else}}
+  <div class="item">
+    <p>No items detected. Either the provided URL cannot be read or the items selector does not match any HTML elements on the page.
   </div>
 {{/items}}
